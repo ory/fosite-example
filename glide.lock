@@ -1,5 +1,5 @@
-hash: bfdd16cac6379b9d18acc493e5d32681d520c478bd8706674a37296a6a05e33c
-updated: 2016-10-16T23:33:04.1003429+02:00
+hash: fe20731d4a3e28f01b1bbd700d18a4f225b55a6cc5107f7cbbdca2a7c53fa499
+updated: 2016-10-17T14:14:02.7625999+02:00
 imports:
 - name: github.com/asaskevich/govalidator
   version: 7b3beb6df3c42abd3509abfc3bcacc0fbfb7c877
@@ -12,7 +12,7 @@ imports:
 - name: github.com/moul/http2curl
   version: b1479103caacaa39319f75e7f57fc545287fca0d
 - name: github.com/ory-am/fosite
-  version: 1041e67f395480fd334446bd8b13f09dfbeeb658
+  version: eb9077f6608d776ae50eb2ad4205705bad6ee0eb
   subpackages:
   - compose
   - handler/oauth2

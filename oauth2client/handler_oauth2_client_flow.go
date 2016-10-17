@@ -1,4 +1,4 @@
-package pkg
+package oauth2client
 
 import (
 	"fmt"

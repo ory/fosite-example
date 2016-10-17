@@ -1,4 +1,4 @@
-package pkg
+package oauth2client
 
 import (
 	"fmt"
@@ -42,7 +42,7 @@ func CallbackHandler(c oauth2.Config) func(rw http.ResponseWriter, req *http.Req
 			}
 
 			rw.Write([]byte(fmt.Sprintf(`<p>These tokens have been revoked, try to use the refresh token by <br><a href="%s">by clicking here</a></p>`, "?refresh="+url.QueryEscape(req.URL.Query().Get("revoke")))))
-			rw.Write([]byte(fmt.Sprintf(`<p>Try to use the access token by <br><a href="%s">by clicking here</a></p>`, "/protected-api?token="+url.QueryEscape(req.URL.Query().Get("access_token")))))
+			rw.Write([]byte(fmt.Sprintf(`<p>Try to use the access token by <br><a href="%s">by clicking here</a></p>`, "/protected?token="+url.QueryEscape(req.URL.Query().Get("access_token")))))
 
 			return
 		}
@@ -96,7 +96,7 @@ func CallbackHandler(c oauth2.Config) func(rw http.ResponseWriter, req *http.Req
 				<code>%s</code>
 			</li>
 		</ul>`,
-			"/protected-api?token="+token.AccessToken,
+			"/protected?token="+token.AccessToken,
 			token.AccessToken,
 			"?refresh="+url.QueryEscape(token.RefreshToken),
 			"?revoke="+url.QueryEscape(token.RefreshToken)+"&access_token="+url.QueryEscape(token.AccessToken),
