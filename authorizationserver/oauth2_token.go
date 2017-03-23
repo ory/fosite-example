@@ -26,9 +26,13 @@ func tokenEndpoint(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// Grant requested scopes
-	for _, scope := range accessRequest.GetRequestedScopes() {
-		accessRequest.GrantScope(scope)
+	// If this is a client_credentials grant, grant all scopes the client is allowed to perform.
+	if accessRequest.GetGrantTypes().Exact("client_credentials") {
+		for _, scope := range accessRequest.GetRequestedScopes() {
+			if fosite.HierarchicScopeStrategy(accessRequest.GetClient().GetScopes(), scope) {
+				accessRequest.GrantScope(scope)
+			}
+		}
 	}
 
 	// Next we create a response for the access request. Again, we iterate through the TokenEndpointHandlers
