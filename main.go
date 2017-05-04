@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/ory-am/fosite-example/authorizationserver"
-	"github.com/ory-am/fosite-example/oauth2client"
-	"github.com/ory-am/fosite-example/resourceserver"
+	"github.com/ory/fosite-example/authorizationserver"
+	"github.com/ory/fosite-example/oauth2client"
+	"github.com/ory/fosite-example/resourceserver"
 	goauth "golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
 	"log"

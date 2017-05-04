@@ -11,7 +11,7 @@ imports:
   - proto
 - name: github.com/moul/http2curl
   version: b1479103caacaa39319f75e7f57fc545287fca0d
-- name: github.com/ory-am/fosite
+- name: github.com/ory/fosite
   version: eb9077f6608d776ae50eb2ad4205705bad6ee0eb
   subpackages:
   - compose

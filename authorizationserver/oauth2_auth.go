@@ -2,7 +2,7 @@ package authorizationserver
 
 import (
 	"fmt"
-	"github.com/ory-am/fosite"
+	"github.com/ory/fosite"
 	"log"
 	"net/http"
 )

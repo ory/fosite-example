@@ -1,7 +1,7 @@
 package authorizationserver
 
 import (
-	"github.com/ory-am/fosite"
+	"github.com/ory/fosite"
 	"log"
 	"net/http"
 )
@@ -27,8 +27,12 @@ func tokenEndpoint(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	// Grant requested scopes
-	for _, scope := range accessRequest.GetRequestedScopes() {
-		accessRequest.GrantScope(scope)
+	if accessRequest.GetGrantTypes().Exact("client_credentials") {
+		for _, scope := range accessRequest.GetRequestedScopes() {
+			if fosite.HierarchicScopeStrategy(accessRequest.GetClient().GetScopes(), scope) {
+				accessRequest.GrantScope(scope)
+			}
+		}
 	}
 
 	// Next we create a response for the access request. Again, we iterate through the TokenEndpointHandlers
