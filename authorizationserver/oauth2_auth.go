@@ -2,7 +2,7 @@ package authorizationserver
 
 import (
 	"fmt"
-	"github.com/ory-am/fosite"
+	"github.com/ory/fosite"
 	"log"
 	"net/http"
 )
@@ -78,7 +78,7 @@ func authEndpoint(rw http.ResponseWriter, req *http.Request) {
 	// Now we need to get a response. This is the place where the AuthorizeEndpointHandlers kick in and start processing the request.
 	// NewAuthorizeResponse is capable of running multiple response type handlers which in turn enables this library
 	// to support open id connect.
-	response, err := oauth2.NewAuthorizeResponse(ctx, req, ar, mySessionData)
+	response, err := oauth2.NewAuthorizeResponse(ctx, ar, mySessionData)
 
 	// Catch any errors, e.g.:
 	// * unknown client
