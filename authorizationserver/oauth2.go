@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ory-am/fosite/compose"
-	"github.com/ory-am/fosite/handler/openid"
-	"github.com/ory-am/fosite/storage"
-	"github.com/ory-am/fosite/token/jwt"
+	"github.com/ory/fosite/compose"
+	"github.com/ory/fosite/handler/openid"
+	"github.com/ory/fosite/storage"
+	"github.com/ory/fosite/token/jwt"
 	"github.com/pkg/errors"
 )
 

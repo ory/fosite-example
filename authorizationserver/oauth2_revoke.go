@@ -1,7 +1,7 @@
 package authorizationserver
 
 import (
-	"github.com/ory-am/fosite"
+	"github.com/ory/fosite"
 	"net/http"
 )
 

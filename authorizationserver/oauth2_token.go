@@ -1,7 +1,7 @@
 package authorizationserver
 
 import (
-	"github.com/ory-am/fosite"
+	"github.com/ory/fosite"
 	"log"
 	"net/http"
 )
@@ -37,7 +37,7 @@ func tokenEndpoint(rw http.ResponseWriter, req *http.Request) {
 
 	// Next we create a response for the access request. Again, we iterate through the TokenEndpointHandlers
 	// and aggregate the result in response.
-	response, err := oauth2.NewAccessResponse(ctx, req, accessRequest)
+	response, err := oauth2.NewAccessResponse(ctx, accessRequest)
 	if err != nil {
 		log.Printf("Error occurred in NewAccessResponse: %s\nStack: \n%s", err, err.(stackTracer).StackTrace())
 		oauth2.WriteAccessError(rw, accessRequest, err)
