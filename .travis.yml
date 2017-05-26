@@ -14,3 +14,4 @@ install:
 script:
   - gotestcover -coverprofile="cover.out" -race -covermode="count" $(glide novendor)
   - goveralls -coverprofile="cover.out"
+  - go install .
