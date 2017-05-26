@@ -1,18 +1,18 @@
-hash: fe20731d4a3e28f01b1bbd700d18a4f225b55a6cc5107f7cbbdca2a7c53fa499
-updated: 2016-10-17T14:14:02.7625999+02:00
+hash: c4d257b84fa56818e04862d46ba398ec47e4258b0b9ec662deb1505149139126
+updated: 2017-05-26T15:04:37.4785502+02:00
 imports:
 - name: github.com/asaskevich/govalidator
   version: 7b3beb6df3c42abd3509abfc3bcacc0fbfb7c877
 - name: github.com/dgrijalva/jwt-go
   version: d2709f9f1f31ebcda9651b03077758c1f3a0018c
 - name: github.com/golang/protobuf
-  version: c3cefd437628a0b7d31b34fe44b3a7a540e98527
+  version: 69b215d01a5606c843240eab4937eab3acee6530
   subpackages:
   - proto
 - name: github.com/moul/http2curl
-  version: b1479103caacaa39319f75e7f57fc545287fca0d
+  version: 4e24498b31dba4683efb9d35c1c8a91e2eda28c8
 - name: github.com/ory/fosite
-  version: eb9077f6608d776ae50eb2ad4205705bad6ee0eb
+  version: d5fafb87b04ddf2ced6b58a063eac71892bcd5c9
   subpackages:
   - compose
   - handler/oauth2
@@ -21,7 +21,7 @@ imports:
   - token/hmac
   - token/jwt
 - name: github.com/parnurzeal/gorequest
-  version: 2aea80ce763523ecc6452e61c3727ae9595a5809
+  version: a578a48e8d6ca8b01a3b18314c43c6716bb5f5a3
 - name: github.com/pborman/uuid
   version: a97ce2ca70fa5a848076093f05e639a89ca34d06
 - name: github.com/pkg/errors
@@ -31,22 +31,22 @@ imports:
   subpackages:
   - json
 - name: golang.org/x/crypto
-  version: e0d166c33c321d0ff863f459a5882096e334f508
+  version: 453249f01cfeb54c3d549ddb75ff152ca243f9d8
   subpackages:
   - bcrypt
   - blowfish
 - name: golang.org/x/net
-  version: 075e191f18186a8ff2becaf64478e30f4545cdad
+  version: dd2d9a67c97da0afa00d5726e28086007a0acce5
   subpackages:
   - context
   - publicsuffix
 - name: golang.org/x/oauth2
-  version: 04e1573abc896e70388bd387a69753c378d46466
+  version: b9780ec78894ab900c062d58ee3076cd9b2a4501
   subpackages:
   - clientcredentials
   - internal
 - name: google.golang.org/appengine
-  version: b4728023490a62e70ba739ff62aa65ffcca84210
+  version: 3a452f9e00122ead39586d68ffdb9c6e1326af3c
   subpackages:
   - internal
   - internal/base
