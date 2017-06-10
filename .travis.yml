@@ -1,17 +1,17 @@
 language: go
 
 go:
-  - 1.5
-  - 1.6
+  - 1.8
 
-env:
-  - GO15VENDOREXPERIMENT=1
+cache:
+  directories:
+    - $GOPATH/src
+    - $GOPATH/pkg
+    - ./vendor/
 
 install:
-   - go get github.com/mattn/goveralls golang.org/x/tools/cmd/cover github.com/pierrre/gotestcover github.com/Masterminds/glide
+   - github.com/Masterminds/glide
    - glide install
 
 script:
-  - gotestcover -coverprofile="cover.out" -race -covermode="count" $(glide novendor)
-  - goveralls -coverprofile="cover.out"
   - go install .
