@@ -1,17 +1,19 @@
 package: github.com/ory/fosite-example
 import:
 - package: github.com/ory/fosite
-  version: ~0.5.0
+  version: ~0.9.5
   subpackages:
   - compose
-  - handler/oauth2
   - handler/openid
   - storage
   - token/jwt
 - package: github.com/parnurzeal/gorequest
-  version: ~0.2.14
+  version: ~0.2.15
 - package: github.com/pkg/errors
   version: ~0.8.0
+- package: golang.org/x/net
+  subpackages:
+  - context
 - package: golang.org/x/oauth2
   subpackages:
   - clientcredentials

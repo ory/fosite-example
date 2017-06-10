@@ -43,6 +43,7 @@ var oauth2 = compose.Compose(
 	config,
 	store,
 	strat,
+	nil,
 
 	// enabled handlers
 	compose.OAuth2AuthorizeExplicitFactory,
