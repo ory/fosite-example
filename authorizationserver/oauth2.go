@@ -59,6 +59,7 @@ var oauth2 = compose.Compose(
 	compose.OpenIDConnectExplicitFactory,
 	compose.OpenIDConnectImplicitFactory,
 	compose.OpenIDConnectHybridFactory,
+	compose.OpenIDConnectRefreshFactory,
 )
 
 // A session is passed from the `/auth` to the `/token` endpoint. You probably want to store data like: "Who made the request",
