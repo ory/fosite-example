@@ -1,0 +1,1 @@
+web: fosite-example
