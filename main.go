@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"os/exec"
+	"os"
 )
 
 // A valid oauth2 client (check the store) that additionally requests an OpenID Connect id token
@@ -48,9 +49,14 @@ func main() {
 	// ### protected resource ###
 	http.HandleFunc("/protected", resourceserver.ProtectedEndpoint(appClientConf))
 
-	fmt.Println("Please open your webbrowser at http://localhost:3846")
-	_ = exec.Command("open", "http://localhost:3846").Run()
-	log.Fatal(http.ListenAndServe(":3846", nil))
+	port := "3846"
+	if os.Getenv("PORT") != "" {
+		port = os.Getenv("PORT")
+	}
+
+	fmt.Println("Please open your webbrowser at http://localhost:" + port)
+	_ = exec.Command("open", "http://localhost:"+port).Run()
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
 func HomeHandler(c goauth.Config) func(rw http.ResponseWriter, req *http.Request) {
