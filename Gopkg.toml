@@ -23,15 +23,11 @@
 
 [[constraint]]
   name = "github.com/ory/fosite"
-  version = "0.19.8"
+  version = "0.20.3"
 
 [[constraint]]
   name = "github.com/parnurzeal/gorequest"
   version = "0.2.15"
-
-[[constraint]]
-  name = "github.com/pkg/errors"
-  version = "0.8.0"
 
 [[constraint]]
   branch = "master"

@@ -10,8 +10,8 @@
 [[projects]]
   name = "github.com/dgrijalva/jwt-go"
   packages = ["."]
-  revision = "dbeaa9332f19a944acb5736b4456cfcc02140e29"
-  version = "v3.1.0"
+  revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
+  version = "v3.2.0"
 
 [[projects]]
   branch = "master"
@@ -49,17 +49,17 @@
     "token/hmac",
     "token/jwt"
   ]
-  revision = "608bf5fff7f5f7fc0dde0b3aecd03534974ba982"
-  version = "v0.19.8"
+  revision = "2edf8f828b99cbabefa7f00066b49e081fab4920"
+  version = "v0.20.3"
 
 [[projects]]
-  branch = "master"
   name = "github.com/ory/go-convenience"
   packages = [
     "stringslice",
     "stringsx"
   ]
-  revision = "cf3c3570c7b941a7180cdc036c8b06eebd95dcb1"
+  revision = "8e5660ff0e4c9c7e0cecd82ea8a87a793ff9ed23"
+  version = "v0.0.3"
 
 [[projects]]
   name = "github.com/parnurzeal/gorequest"
@@ -147,6 +147,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "80ef627d8f285e7b021c7164cfed78b63dc9183bea2f795efa40a61d7bbe579e"
+  inputs-digest = "77f9fc5a6a948f4372b167fd66d2bcab0444a2a0139199f01d66d276600db1ca"
   solver-name = "gps-cdcl"
   solver-version = 1
