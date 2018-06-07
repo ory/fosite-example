@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"os/exec"
+
 	"github.com/ory/fosite-example/authorizationserver"
 	"github.com/ory/fosite-example/oauth2client"
 	"github.com/ory/fosite-example/resourceserver"
 	goauth "golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
-	"log"
-	"net/http"
-	"os/exec"
-	"os"
 )
 
 // A valid oauth2 client (check the store) that additionally requests an OpenID Connect id token

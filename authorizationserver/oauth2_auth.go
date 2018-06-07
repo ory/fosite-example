@@ -2,9 +2,10 @@ package authorizationserver
 
 import (
 	"fmt"
-	"github.com/ory/fosite"
 	"log"
 	"net/http"
+
+	"github.com/ory/fosite"
 )
 
 func authEndpoint(rw http.ResponseWriter, req *http.Request) {
@@ -15,7 +16,7 @@ func authEndpoint(rw http.ResponseWriter, req *http.Request) {
 	// It will analyze the request and extract important information like scopes, response type and others.
 	ar, err := oauth2.NewAuthorizeRequest(ctx, req)
 	if err != nil {
-		log.Printf("Error occurred in NewAuthorizeRequest: %s\nStack: \n%s", err, err.(stackTracer).StackTrace())
+		log.Printf("Error occurred in NewAuthorizeRequest: %+v", err)
 		oauth2.WriteAuthorizeError(rw, ar, err)
 		return
 	}
@@ -85,7 +86,7 @@ func authEndpoint(rw http.ResponseWriter, req *http.Request) {
 	// * invalid redirect
 	// * ...
 	if err != nil {
-		log.Printf("Error occurred in NewAuthorizeResponse: %s\nStack: \n%s", err, err.(stackTracer).StackTrace())
+		log.Printf("Error occurred in NewAuthorizeResponse: %+v", err)
 		oauth2.WriteAuthorizeError(rw, ar, err)
 		return
 	}

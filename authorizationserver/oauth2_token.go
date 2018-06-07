@@ -1,9 +1,10 @@
 package authorizationserver
 
 import (
-	"github.com/ory/fosite"
 	"log"
 	"net/http"
+
+	"github.com/ory/fosite"
 )
 
 func tokenEndpoint(rw http.ResponseWriter, req *http.Request) {
@@ -21,7 +22,7 @@ func tokenEndpoint(rw http.ResponseWriter, req *http.Request) {
 	// * invalid redirect
 	// * ...
 	if err != nil {
-		log.Printf("Error occurred in NewAccessRequest: %s\nStack: \n%s", err, err.(stackTracer).StackTrace())
+		log.Printf("Error occurred in NewAccessRequest: %+v", err)
 		oauth2.WriteAccessError(rw, accessRequest, err)
 		return
 	}
@@ -39,7 +40,7 @@ func tokenEndpoint(rw http.ResponseWriter, req *http.Request) {
 	// and aggregate the result in response.
 	response, err := oauth2.NewAccessResponse(ctx, accessRequest)
 	if err != nil {
-		log.Printf("Error occurred in NewAccessResponse: %s\nStack: \n%s", err, err.(stackTracer).StackTrace())
+		log.Printf("Error occurred in NewAccessResponse: %+v", err)
 		oauth2.WriteAccessError(rw, accessRequest, err)
 		return
 	}

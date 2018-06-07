@@ -1,8 +1,9 @@
 package authorizationserver
 
 import (
-	"github.com/ory/fosite"
 	"net/http"
+
+	"github.com/ory/fosite"
 )
 
 func revokeEndpoint(rw http.ResponseWriter, req *http.Request) {

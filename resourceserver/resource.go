@@ -5,11 +5,12 @@ import (
 	"net/http"
 
 	"encoding/json"
-	"golang.org/x/net/context"
-	"golang.org/x/oauth2/clientcredentials"
 	"io/ioutil"
 	"net/url"
 	"strings"
+
+	"golang.org/x/net/context"
+	"golang.org/x/oauth2/clientcredentials"
 )
 
 type session struct {
