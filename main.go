@@ -26,7 +26,7 @@ var clientConf = goauth.Config{
 	},
 }
 
-// The same thing (valid oauth2 client) but for using the cliend credentials grant
+// The same thing (valid oauth2 client) but for using the client credentials grant
 var appClientConf = clientcredentials.Config{
 	ClientID:     "my-client",
 	ClientSecret: "foobar",
