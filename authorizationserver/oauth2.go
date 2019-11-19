@@ -32,10 +32,10 @@ var config = new(compose.Config)
 var strat = compose.CommonStrategy{
 	// alternatively you could use:
 	//  OAuth2Strategy: compose.NewOAuth2JWTStrategy(mustRSAKey())
-	CoreStrategy: compose.NewOAuth2HMACStrategy(config, []byte("some-super-cool-secret-that-nobody-knows")),
+	CoreStrategy: compose.NewOAuth2HMACStrategy(config, []byte("some-super-cool-secret-that-nobody-knows"), nil),
 
 	// open id connect strategy
-	OpenIDConnectTokenStrategy: compose.NewOpenIDConnectStrategy(mustRSAKey()),
+	OpenIDConnectTokenStrategy: compose.NewOpenIDConnectStrategy(config, mustRSAKey()),
 }
 
 var oauth2 = compose.Compose(
