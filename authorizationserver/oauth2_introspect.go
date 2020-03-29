@@ -12,7 +12,7 @@ func introspectionEndpoint(rw http.ResponseWriter, req *http.Request) {
 	mySessionData := newSession("")
 	ir, err := oauth2.NewIntrospectionRequest(ctx, req, mySessionData)
 	if err != nil {
-		log.Printf("Error occurred in NewAuthorizeRequest: %+v", err)
+		log.Printf("Error occurred in NewIntrospectionRequest: %+v", err)
 		oauth2.WriteIntrospectionError(rw, err)
 		return
 	}
