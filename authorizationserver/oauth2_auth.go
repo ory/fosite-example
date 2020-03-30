@@ -71,7 +71,7 @@ func authEndpoint(rw http.ResponseWriter, req *http.Request) {
 	// mySessionData.JWTClaims.ExpiresAt = time.Now().Add(time.Day)
 
 	// It's also wise to check the requested scopes, e.g.:
-	// if authorizeRequest.GetScopes().Has("admin") {
+	// if ar.GetRequestedScopes().Has("admin") {
 	//     http.Error(rw, "you're not allowed to do that", http.StatusForbidden)
 	//     return
 	// }
