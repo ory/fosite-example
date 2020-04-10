@@ -9,7 +9,7 @@ import (
 
 func tokenEndpoint(rw http.ResponseWriter, req *http.Request) {
 	// This context will be passed to all methods.
-	ctx := fosite.NewContext()
+	ctx := req.Context()
 
 	// Create an empty session object which will be passed to the request handlers
 	mySessionData := newSession("")

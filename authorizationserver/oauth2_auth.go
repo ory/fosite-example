@@ -4,13 +4,11 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
-	"github.com/ory/fosite"
 )
 
 func authEndpoint(rw http.ResponseWriter, req *http.Request) {
 	// This context will be passed to all methods.
-	ctx := fosite.NewContext()
+	ctx := req.Context()
 
 	// Let's create an AuthorizeRequest object!
 	// It will analyze the request and extract important information like scopes, response type and others.
