@@ -1,6 +1,7 @@
 package oauth2client
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 
@@ -29,7 +30,7 @@ func OwnerHandler(c oauth2.Config) func(rw http.ResponseWriter, req *http.Reques
 			return
 		}
 
-		token, err := c.PasswordCredentialsToken(oauth2.NoContext, req.Form.Get("username"), req.Form.Get("password"))
+		token, err := c.PasswordCredentialsToken(context.Background(), req.Form.Get("username"), req.Form.Get("password"))
 		if err != nil {
 			rw.Write([]byte(fmt.Sprintf(`<p>I tried to get a token but received an error: %s</p>`, err.Error())))
 			rw.Write([]byte(`<p><a href="/">Go back</a></p>`))
