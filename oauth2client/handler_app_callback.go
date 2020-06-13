@@ -6,7 +6,6 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/parnurzeal/gorequest"
 	"golang.org/x/oauth2"
 )
 
@@ -25,14 +24,16 @@ func CallbackHandler(c oauth2.Config) func(rw http.ResponseWriter, req *http.Req
 			return
 		}
 
+		client := newBasicClient(c.ClientID, c.ClientSecret)
 		if req.URL.Query().Get("revoke") != "" {
 			revokeURL := strings.Replace(c.Endpoint.TokenURL, "token", "revoke", 1)
-			resp, body, errs := gorequest.New().Post(revokeURL).SetBasicAuth(c.ClientID, c.ClientSecret).SendString(url.Values{
+			payload := url.Values{
 				"token_type_hint": {"refresh_token"},
 				"token":           {req.URL.Query().Get("revoke")},
-			}.Encode()).End()
-			if len(errs) > 0 {
-				rw.Write([]byte(fmt.Sprintf(`<p>Could not revoke token %s</p>`, errs)))
+			}
+			resp, body, err := client.Post(revokeURL, payload)
+			if err != nil {
+				rw.Write([]byte(fmt.Sprintf(`<p>Could not revoke token %s</p>`, err)))
 				return
 			}
 
@@ -48,13 +49,14 @@ func CallbackHandler(c oauth2.Config) func(rw http.ResponseWriter, req *http.Req
 		}
 
 		if req.URL.Query().Get("refresh") != "" {
-			_, body, errs := gorequest.New().Post(c.Endpoint.TokenURL).SetBasicAuth(c.ClientID, c.ClientSecret).SendString(url.Values{
+			payload := url.Values{
 				"grant_type":    {"refresh_token"},
 				"refresh_token": {req.URL.Query().Get("refresh")},
 				"scope":         {"fosite"},
-			}.Encode()).End()
-			if len(errs) > 0 {
-				rw.Write([]byte(fmt.Sprintf(`<p>Could not refresh token %s</p>`, errs)))
+			}
+			_, body, err := client.Post(c.Endpoint.TokenURL, payload)
+			if err != nil {
+				rw.Write([]byte(fmt.Sprintf(`<p>Could not refresh token %s</p>`, err)))
 				return
 			}
 			rw.Write([]byte(fmt.Sprintf(`<p>Got a response from the refresh grant:<br><code>%s</code></p>`, body)))
