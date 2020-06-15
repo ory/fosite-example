@@ -1,17 +1,17 @@
 package oauth2client
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 
-	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
 )
 
 func ClientEndpoint(c clientcredentials.Config) func(rw http.ResponseWriter, req *http.Request) {
 	return func(rw http.ResponseWriter, req *http.Request) {
 		rw.Write([]byte("<h1>Client Credentials Grant</h1>"))
-		token, err := c.Token(oauth2.NoContext)
+		token, err := c.Token(context.Background())
 		if err != nil {
 			rw.Write([]byte(fmt.Sprintf(`<p>I tried to get a token but received an error: %s</p>`, err.Error())))
 			return

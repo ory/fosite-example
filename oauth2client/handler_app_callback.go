@@ -1,6 +1,7 @@
 package oauth2client
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -77,7 +78,7 @@ func CallbackHandler(c oauth2.Config) func(rw http.ResponseWriter, req *http.Req
 			req.URL.Query().Get("code"),
 		)))
 
-		token, err := c.Exchange(oauth2.NoContext, req.URL.Query().Get("code"))
+		token, err := c.Exchange(context.Background(), req.URL.Query().Get("code"))
 		if err != nil {
 			rw.Write([]byte(fmt.Sprintf(`<p>I tried to exchange the authorize code for an access token but it did not work but got error: %s</p>`, err.Error())))
 			return
