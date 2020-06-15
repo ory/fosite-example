@@ -25,6 +25,33 @@ func RegisterHandlers() {
 // This is an exemplary storage instance. We will add a client and a user to it so we can use these later on.
 var store = storage.NewExampleStore()
 
+// This secret is used to sign access and refresh tokens as well as authorize codes.
+// It has to be 32-bytes long for HMAC signing.
+// In order to generate secure keys, the best thing to do is use crypto/rand:
+//
+// ```
+// package main
+//
+// import (
+//	"crypto/rand"
+//	"encoding/hex"
+//	"fmt"
+// )
+//
+// func main() {
+//	var secret = make([]byte, 32)
+//	_, err := rand.Read(secret)
+//	if err != nil {
+//		panic(err)
+//	}
+// }
+// ```
+//
+// If you require this to key to be stable, for example, when running multiple fosite servers, you can generate the
+// 32byte random key as above and push it out to a base64 encoded string.
+// This can then be injected and decoded as the `var secret []byte` on server start.
+var secret = []byte("some-cool-secret-that-is-32bytes")
+
 var config = new(compose.Config)
 
 // Because we are using oauth2 and open connect id, we use this little helper to combine the two in one
@@ -32,7 +59,7 @@ var config = new(compose.Config)
 var strat = compose.CommonStrategy{
 	// alternatively you could use:
 	//  OAuth2Strategy: compose.NewOAuth2JWTStrategy(mustRSAKey())
-	CoreStrategy: compose.NewOAuth2HMACStrategy(config, []byte("some-super-cool-secret-that-nobody-knows"), nil),
+	CoreStrategy: compose.NewOAuth2HMACStrategy(config, secret, nil),
 
 	// open id connect strategy
 	OpenIDConnectTokenStrategy: compose.NewOpenIDConnectStrategy(config, mustRSAKey()),
