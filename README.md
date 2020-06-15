@@ -6,11 +6,11 @@ ORY Fosite is the security first OAuth2 & OpenID Connect framework for Go. Built
 
 ## Install and run
 
-Please install [dep](https://github.com/golang/dep), then run the demo:
+The Fosite example server requires [`go@1.13` or higher installed](https://golang.org/dl/) as it uses go modules for dependency management. 
+Once installed, run the demo:
 
 ```
 $ go get -d github.com/ory/fosite-example
 $ cd $GOPATH/src/github.com/ory/fosite-example
-$ dep ensure
 $ go run main.go
 ```
