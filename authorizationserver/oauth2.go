@@ -22,71 +22,59 @@ func RegisterHandlers() {
 	http.HandleFunc("/oauth2/introspect", introspectionEndpoint)
 }
 
-// This is an exemplary storage instance. We will add a client and a user to it so we can use these later on.
-var store = storage.NewExampleStore()
+// fosite requires four parameters for the server to get up and running:
+// 1. config - for any enforcement you may desire, you can do this using `compose.Config`. You like PKCE, enforce it!
+// 2. store - no auth service is generally useful unless it can remember clients and users.
+//    fosite is incredibly composable, and the store parameter enables you to build and BYODb (Bring Your Own Database)
+// 3. secret - required for code, access and refresh token generation.
+// 4. privateKey - required for id/jwt token generation.
+var (
+	// Check the api documentation of `compose.Config` for further configuration options.
+	config = &compose.Config{
+		AccessTokenLifespan: time.Minute * 30,
+		// ...
+	}
 
-// This secret is used to sign access and refresh tokens as well as authorize codes.
-// It has to be 32-bytes long for HMAC signing.
-// In order to generate secure keys, the best thing to do is use crypto/rand:
-//
-// ```
-// package main
-//
-// import (
-//	"crypto/rand"
-//	"encoding/hex"
-//	"fmt"
-// )
-//
-// func main() {
-//	var secret = make([]byte, 32)
-//	_, err := rand.Read(secret)
-//	if err != nil {
-//		panic(err)
-//	}
-// }
-// ```
-//
-// If you require this to key to be stable, for example, when running multiple fosite servers, you can generate the
-// 32byte random key as above and push it out to a base64 encoded string.
-// This can then be injected and decoded as the `var secret []byte` on server start.
-var secret = []byte("some-cool-secret-that-is-32bytes")
+	// This is the example storage that contains:
+	// * an OAuth2 Client with id "my-client" and secret "foobar" capable of all oauth2 and open id connect grant and response types.
+	// * a User for the resource owner password credentials grant type with username "peter" and password "secret".
+	//
+	// You will most likely replace this with your own logic once you set up a real world application.
+	store = storage.NewExampleStore()
 
-var config = new(compose.Config)
+	// This secret is used to sign authorize codes, access and refresh tokens.
+	// It has to be 32-bytes long for HMAC signing. This requirement can be configured via `compose.Config` above.
+	// In order to generate secure keys, the best thing to do is use crypto/rand:
+	//
+	// ```
+	// package main
+	//
+	// import (
+	//	"crypto/rand"
+	//	"encoding/hex"
+	//	"fmt"
+	// )
+	//
+	// func main() {
+	//	var secret = make([]byte, 32)
+	//	_, err := rand.Read(secret)
+	//	if err != nil {
+	//		panic(err)
+	//	}
+	// }
+	// ```
+	//
+	// If you require this to key to be stable, for example, when running multiple fosite servers, you can generate the
+	// 32byte random key as above and push it out to a base64 encoded string.
+	// This can then be injected and decoded as the `var secret []byte` on server start.
+	secret = []byte("some-cool-secret-that-is-32bytes")
 
-// Because we are using oauth2 and open connect id, we use this little helper to combine the two in one
-// variable.
-var strat = compose.CommonStrategy{
-	// alternatively you could use:
-	//  OAuth2Strategy: compose.NewOAuth2JWTStrategy(mustRSAKey())
-	CoreStrategy: compose.NewOAuth2HMACStrategy(config, secret, nil),
-
-	// open id connect strategy
-	OpenIDConnectTokenStrategy: compose.NewOpenIDConnectStrategy(config, mustRSAKey()),
-}
-
-var oauth2 = compose.Compose(
-	config,
-	store,
-	strat,
-	nil,
-
-	// enabled handlers
-	compose.OAuth2AuthorizeExplicitFactory,
-	compose.OAuth2AuthorizeImplicitFactory,
-	compose.OAuth2ClientCredentialsGrantFactory,
-	compose.OAuth2RefreshTokenGrantFactory,
-	compose.OAuth2ResourceOwnerPasswordCredentialsFactory,
-
-	compose.OAuth2TokenRevocationFactory,
-	compose.OAuth2TokenIntrospectionFactory,
-
-	// be aware that open id connect factories need to be added after oauth2 factories to work properly.
-	compose.OpenIDConnectExplicitFactory,
-	compose.OpenIDConnectImplicitFactory,
-	compose.OpenIDConnectHybridFactory,
-	compose.OpenIDConnectRefreshFactory,
+	// privateKey is used to sign JWT tokens. The default strategy uses RS256 (RSA Signature with SHA-256)
+	privateKey, _ = rsa.GenerateKey(rand.Reader, 2048)
 )
+
+// Build a fosite instance with all OAuth2 and OpenID Connect handlers enabled, plugging in our configurations as specified above.
+var oauth2 = compose.ComposeAllEnabled(config, store, secret, privateKey)
 
 // A session is passed from the `/auth` to the `/token` endpoint. You probably want to store data like: "Who made the request",
 // "What organization does that person belong to" and so on.
@@ -113,12 +101,4 @@ func newSession(user string) *openid.DefaultSession {
 			Extra: make(map[string]interface{}),
 		},
 	}
-}
-
-func mustRSAKey() *rsa.PrivateKey {
-	key, err := rsa.GenerateKey(rand.Reader, 1024)
-	if err != nil {
-		panic(err)
-	}
-	return key
 }
