@@ -17,9 +17,11 @@ func CallbackHandler(c oauth2.Config) func(rw http.ResponseWriter, req *http.Req
 		if req.URL.Query().Get("error") != "" {
 			rw.Write([]byte(fmt.Sprintf(`<h1>Error!</h1>
 			Error: %s<br>
+			Error Hint: %s<br>
 			Description: %s<br>
 			<br>`,
 				req.URL.Query().Get("error"),
+				req.URL.Query().Get("error_hint"),
 				req.URL.Query().Get("error_description"),
 			)))
 			return
