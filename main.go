@@ -35,13 +35,12 @@ var appClientConf = clientcredentials.Config{
 }
 
 func main() {
-	// navigation
-	http.HandleFunc("/", HomeHandler(clientConf)) // show some links on the index
-
 	// ### oauth2 server ###
 	authorizationserver.RegisterHandlers() // the authorization server (fosite)
 
 	// ### oauth2 client ###
+	http.HandleFunc("/", oauth2client.HomeHandler(clientConf)) // show some links on the index
+
 	// the following handlers are oauth2 consumers
 	http.HandleFunc("/client", oauth2client.ClientEndpoint(appClientConf)) // complete a client credentials flow
 	http.HandleFunc("/owner", oauth2client.OwnerHandler(clientConf))       // complete a resource owner password credentials flow
@@ -58,36 +57,4 @@ func main() {
 	fmt.Println("Please open your webbrowser at http://localhost:" + port)
 	_ = exec.Command("open", "http://localhost:"+port).Run()
 	log.Fatal(http.ListenAndServe(":"+port, nil))
-}
-
-func HomeHandler(c goauth.Config) func(rw http.ResponseWriter, req *http.Request) {
-	return func(rw http.ResponseWriter, req *http.Request) {
-		rw.Write([]byte(fmt.Sprintf(`
-		<p>You can obtain an access token using various methods</p>
-		<ul>
-			<li>
-				<a href="%s">Authorize code grant (with OpenID Connect)</a>
-			</li>
-			<li>
-				<a href="%s">Implicit grant (with OpenID Connect)</a>
-			</li>
-			<li>
-				<a href="/client">Client credentials grant</a>
-			</li>
-			<li>
-				<a href="/owner">Resource owner password credentials grant</a>
-			</li>
-			<li>
-				<a href="%s">Refresh grant</a>. <small>You will first see the login screen which is required to obtain a valid refresh token.</small>
-			</li>
-			<li>
-				<a href="%s">Make an invalid request</a>
-			</li>
-		</ul>`,
-			c.AuthCodeURL("some-random-state-foobar")+"&nonce=some-random-nonce",
-			"http://localhost:3846/oauth2/auth?client_id=my-client&redirect_uri=http%3A%2F%2Flocalhost%3A3846%2Fcallback&response_type=token%20id_token&scope=fosite%20openid&state=some-random-state-foobar&nonce=some-random-nonce",
-			c.AuthCodeURL("some-random-state-foobar")+"&nonce=some-random-nonce",
-			"/oauth2/auth?client_id=my-client&scope=fosite&response_type=123&redirect_uri=http://localhost:3846/callback",
-		)))
-	}
 }
