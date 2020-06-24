@@ -12,6 +12,7 @@ import (
 
 func CallbackHandler(c oauth2.Config) func(rw http.ResponseWriter, req *http.Request) {
 	return func(rw http.ResponseWriter, req *http.Request) {
+		codeVerifier := resetPKCE(rw)
 		rw.Write([]byte(`<h1>Callback site</h1><a href="/">Go back</a>`))
 		rw.Header().Set("Content-Type", "text/html; charset=utf-8")
 		if req.URL.Query().Get("error") != "" {
@@ -80,7 +81,13 @@ func CallbackHandler(c oauth2.Config) func(rw http.ResponseWriter, req *http.Req
 			req.URL.Query().Get("code"),
 		)))
 
-		token, err := c.Exchange(context.Background(), req.URL.Query().Get("code"))
+		// We'll check whether we sent a code+PKCE request, and if so, send the code_verifier along when requesting the access token.
+		var opts []oauth2.AuthCodeOption
+		if isPKCE(req) {
+			opts = append(opts, oauth2.SetAuthURLParam("code_verifier", codeVerifier))
+		}
+
+		token, err := c.Exchange(context.Background(), req.URL.Query().Get("code"), opts...)
 		if err != nil {
 			rw.Write([]byte(fmt.Sprintf(`<p>I tried to exchange the authorize code for an access token but it did not work but got error: %s</p>`, err.Error())))
 			return
