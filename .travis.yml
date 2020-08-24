@@ -3,7 +3,7 @@ language: go
 go_import_path: github.com/ory/fosite-example
 
 go:
-  - 1.12
+  - 1.13
 
 env:
   - GO111MODULE=on
