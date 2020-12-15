@@ -3,8 +3,6 @@ package authorizationserver
 import (
 	"log"
 	"net/http"
-
-	"github.com/ory/fosite"
 )
 
 func tokenEndpoint(rw http.ResponseWriter, req *http.Request) {
@@ -27,12 +25,12 @@ func tokenEndpoint(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// If this is a client_credentials grant, grant all scopes the client is allowed to perform.
-	if accessRequest.GetGrantTypes().Exact("client_credentials") {
+	// If this is a client_credentials grant, grant all requested scopes
+	// NewAccessRequest validated that all requested scopes the client is allowed to perform
+	// based on configured scope matching strategy.
+	if accessRequest.GetGrantTypes().ExactOne("client_credentials") {
 		for _, scope := range accessRequest.GetRequestedScopes() {
-			if fosite.HierarchicScopeStrategy(accessRequest.GetClient().GetScopes(), scope) {
-				accessRequest.GrantScope(scope)
-			}
+			accessRequest.GrantScope(scope)
 		}
 	}
 
