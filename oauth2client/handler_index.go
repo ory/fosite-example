@@ -32,7 +32,7 @@ func HomeHandler(c goauth.Config) func(rw http.ResponseWriter, req *http.Request
 				<a href="%s">Implicit grant (with OpenID Connect)</a>
 			</li>
 			<li>
-				<a href="/client">Client credentials grant</a>
+				Client credentials grant <a href="/client">using primary secret</a> or <a href="/client-new">using rotateted secret</a>
 			</li>
 			<li>
 				<a href="/owner">Resource owner password credentials grant</a>

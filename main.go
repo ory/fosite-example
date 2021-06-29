@@ -34,6 +34,14 @@ var appClientConf = clientcredentials.Config{
 	TokenURL:     "http://localhost:3846/oauth2/token",
 }
 
+// Samle client as above, but using a different secret to demonstrate secret rotation
+var appClientConfRotated = clientcredentials.Config{
+	ClientID:     "my-client",
+	ClientSecret: "foobaz",
+	Scopes:       []string{"fosite"},
+	TokenURL:     "http://localhost:3846/oauth2/token",
+}
+
 func main() {
 	// ### oauth2 server ###
 	authorizationserver.RegisterHandlers() // the authorization server (fosite)
@@ -42,9 +50,10 @@ func main() {
 	http.HandleFunc("/", oauth2client.HomeHandler(clientConf)) // show some links on the index
 
 	// the following handlers are oauth2 consumers
-	http.HandleFunc("/client", oauth2client.ClientEndpoint(appClientConf)) // complete a client credentials flow
-	http.HandleFunc("/owner", oauth2client.OwnerHandler(clientConf))       // complete a resource owner password credentials flow
-	http.HandleFunc("/callback", oauth2client.CallbackHandler(clientConf)) // the oauth2 callback endpoint
+	http.HandleFunc("/client", oauth2client.ClientEndpoint(appClientConf))            // complete a client credentials flow
+	http.HandleFunc("/client-new", oauth2client.ClientEndpoint(appClientConfRotated)) // complete a client credentials flow using rotated secret
+	http.HandleFunc("/owner", oauth2client.OwnerHandler(clientConf))                  // complete a resource owner password credentials flow
+	http.HandleFunc("/callback", oauth2client.CallbackHandler(clientConf))            // the oauth2 callback endpoint
 
 	// ### protected resource ###
 	http.HandleFunc("/protected", resourceserver.ProtectedEndpoint(appClientConf))
