@@ -21,7 +21,7 @@ func tokenEndpoint(rw http.ResponseWriter, req *http.Request) {
 	// * ...
 	if err != nil {
 		log.Printf("Error occurred in NewAccessRequest: %+v", err)
-		oauth2.WriteAccessError(rw, accessRequest, err)
+		oauth2.WriteAccessError(ctx, rw, accessRequest, err)
 		return
 	}
 
@@ -39,12 +39,12 @@ func tokenEndpoint(rw http.ResponseWriter, req *http.Request) {
 	response, err := oauth2.NewAccessResponse(ctx, accessRequest)
 	if err != nil {
 		log.Printf("Error occurred in NewAccessResponse: %+v", err)
-		oauth2.WriteAccessError(rw, accessRequest, err)
+		oauth2.WriteAccessError(ctx, rw, accessRequest, err)
 		return
 	}
 
 	// All done, send the response.
-	oauth2.WriteAccessResponse(rw, accessRequest, response)
+	oauth2.WriteAccessResponse(ctx, rw, accessRequest, response)
 
 	// The client now has a valid access token
 }

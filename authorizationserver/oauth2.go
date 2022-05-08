@@ -3,6 +3,7 @@ package authorizationserver
 import (
 	"crypto/rand"
 	"crypto/rsa"
+	"github.com/ory/fosite"
 	"net/http"
 	"time"
 
@@ -30,8 +31,9 @@ func RegisterHandlers() {
 // 4. privateKey - required for id/jwt token generation.
 var (
 	// Check the api documentation of `compose.Config` for further configuration options.
-	config = &compose.Config{
+	config = &fosite.Config{
 		AccessTokenLifespan: time.Minute * 30,
+		GlobalSecret:        secret,
 		// ...
 	}
 
@@ -74,7 +76,7 @@ var (
 )
 
 // Build a fosite instance with all OAuth2 and OpenID Connect handlers enabled, plugging in our configurations as specified above.
-var oauth2 = compose.ComposeAllEnabled(config, store, secret, privateKey)
+var oauth2 = compose.ComposeAllEnabled(config, store, privateKey)
 
 // A session is passed from the `/auth` to the `/token` endpoint. You probably want to store data like: "Who made the request",
 // "What organization does that person belong to" and so on.
