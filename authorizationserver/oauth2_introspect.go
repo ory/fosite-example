@@ -11,9 +11,9 @@ func introspectionEndpoint(rw http.ResponseWriter, req *http.Request) {
 	ir, err := oauth2.NewIntrospectionRequest(ctx, req, mySessionData)
 	if err != nil {
 		log.Printf("Error occurred in NewIntrospectionRequest: %+v", err)
-		oauth2.WriteIntrospectionError(rw, err)
+		oauth2.WriteIntrospectionError(ctx, rw, err)
 		return
 	}
 
-	oauth2.WriteIntrospectionResponse(rw, ir)
+	oauth2.WriteIntrospectionResponse(ctx, rw, ir)
 }

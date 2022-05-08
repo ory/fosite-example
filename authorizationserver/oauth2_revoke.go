@@ -12,5 +12,5 @@ func revokeEndpoint(rw http.ResponseWriter, req *http.Request) {
 	err := oauth2.NewRevocationRequest(ctx, req)
 
 	// All done, send the response.
-	oauth2.WriteRevocationResponse(rw, err)
+	oauth2.WriteRevocationResponse(ctx, rw, err)
 }

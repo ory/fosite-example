@@ -15,7 +15,7 @@ func authEndpoint(rw http.ResponseWriter, req *http.Request) {
 	ar, err := oauth2.NewAuthorizeRequest(ctx, req)
 	if err != nil {
 		log.Printf("Error occurred in NewAuthorizeRequest: %+v", err)
-		oauth2.WriteAuthorizeError(rw, ar, err)
+		oauth2.WriteAuthorizeError(ctx, rw, ar, err)
 		return
 	}
 	// You have now access to authorizeRequest, Code ResponseTypes, Scopes ...
@@ -85,10 +85,10 @@ func authEndpoint(rw http.ResponseWriter, req *http.Request) {
 	// * ...
 	if err != nil {
 		log.Printf("Error occurred in NewAuthorizeResponse: %+v", err)
-		oauth2.WriteAuthorizeError(rw, ar, err)
+		oauth2.WriteAuthorizeError(ctx, rw, ar, err)
 		return
 	}
 
 	// Last but not least, send the response!
-	oauth2.WriteAuthorizeResponse(rw, ar, response)
+	oauth2.WriteAuthorizeResponse(ctx, rw, ar, response)
 }
