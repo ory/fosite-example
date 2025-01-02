@@ -10,7 +10,7 @@ The Fosite example server requires [`go@1.13` or higher installed](https://golan
 Once installed, run the demo:
 
 ```
-$ go get -d github.com/ory/fosite-example
-$ cd $GOPATH/src/github.com/ory/fosite-example
+$ git clone https://github.com/ory/fosite-example.git
+$ cd fosite-example
 $ go run main.go
 ```
